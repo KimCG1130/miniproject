@@ -32,6 +32,7 @@ public class User {
         return UserResponseDto.builder()
                 .username(username)
                 .nickname(nickname)
+                .id(id)
                 .build();
     }
 

@@ -9,7 +9,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "*",allowCredentials = "false")
+//@CrossOrigin(origins = "*",allowCredentials = "false")
 @Controller
 public class UserController {
 
@@ -20,7 +20,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/user/login")
+    @GetMapping("/userView/login")
     public String login() {
         return "login.html";
     }
