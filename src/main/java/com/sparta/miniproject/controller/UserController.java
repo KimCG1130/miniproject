@@ -2,6 +2,7 @@ package com.sparta.miniproject.controller;
 
 import com.sparta.miniproject.dto.UserRequestDto;
 import com.sparta.miniproject.dto.UserResponseDto;
+import com.sparta.miniproject.security.UserDetailsImpl;
 import com.sparta.miniproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,16 +23,19 @@ public class UserController {
 
     @GetMapping("/user/login")
     public String login() {
-        return "login.html";
+        System.out.println("getlogin");
+        return "login";
     }
 
     @PostMapping("/user/signup")
-    public ResponseEntity<UserResponseDto> registerUser(@RequestBody UserRequestDto userRequestDto) {
-        return ResponseEntity.ok().body(userService.registerUser(userRequestDto));    }
+    public String registerUser(UserRequestDto requestDto) {
+        userService.registerUser(requestDto);
+        return "redirect:/user/login";
+    }
 
 //    @GetMapping("/user/islogin")
 //    public String islogin(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-//        return "index";
+//        return "index.html";
 //    }
 }
 

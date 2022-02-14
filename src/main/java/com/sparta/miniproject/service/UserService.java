@@ -23,13 +23,18 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
     @Transactional
-    public UserResponseDto registerUser(UserRequestDto userRequestDto) {
+    public User registerUser(UserRequestDto userRequestDto) {
 
 //        SignupValidator.signupValidator(userRequestDto);
 
         String password = passwordEncoder.encode(userRequestDto.getPassword());
         User user = userRepository.save(userRequestDto.toEntity(password));
-        return user.toResponseDto();
+
+        System.out.println(user.toResponseDto().getUsername());
+        System.out.println(user.toResponseDto().getNickname());
+        System.out.println(user.toResponseDto().getId());
+
+        return user;
     }
 
     public UserResponseDto getUser(UserDetailsImpl userDetails) {

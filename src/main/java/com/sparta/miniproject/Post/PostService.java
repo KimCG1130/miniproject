@@ -11,6 +11,7 @@ import com.sparta.miniproject.model.User;
 import com.sparta.miniproject.repository.UserRepository;
 import com.sparta.miniproject.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -24,7 +25,7 @@ public class PostService
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
-    public Response createPost(PostPostRequestDto requestDto, UserDetailsImpl userDetails)
+    public Response createPost(PostPostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
         User user = userRepository.findByNickname(userDetails.getUser().getNickname()).orElse(null);
 
@@ -33,6 +34,8 @@ public class PostService
 
         Response response = new Response();
         response.setStatus(200);
+
+        System.out.println(user.getUsername());
 
         return response;
     }
@@ -82,7 +85,7 @@ public class PostService
     }
 
     @Transactional // SQL 쿼리가 일어나야 함을 스프링에게 알려줌
-    public Response updatePost(PostPutRequestDto requestDto, Long postId, UserDetailsImpl userDetails)
+    public Response updatePost(PostPutRequestDto requestDto, Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
         Post getPost= postRepository.findById(postId).orElseThrow(
                 ()-> new IllegalArgumentException("해당 포스트 없음") );
@@ -100,7 +103,7 @@ public class PostService
 
     }
 
-    public Response deletePost(Long postId, UserDetailsImpl userDetails)
+    public Response deletePost(Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("글이 존재하지 않습니다.")
