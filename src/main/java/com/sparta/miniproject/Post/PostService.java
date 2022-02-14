@@ -6,9 +6,10 @@ import com.sparta.miniproject.Post.ResponseDto.PostGetResponse;
 import com.sparta.miniproject.Post.ResponseDto.PostGetResponseDto;
 import com.sparta.miniproject.Post.ResponseDto.PostPostResponse;
 import com.sparta.miniproject.Post.ResponseDto.PostPostResponseDto;
-import com.sparta.miniproject.Post.TestUser.TestUser;
-import com.sparta.miniproject.Post.TestUser.TestUserRepository;
 import com.sparta.miniproject.model.Response;
+import com.sparta.miniproject.model.User;
+import com.sparta.miniproject.repository.UserRepository;
+import com.sparta.miniproject.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,13 +22,13 @@ import java.util.List;
 public class PostService
 {
     private final PostRepository postRepository;
-    private final TestUserRepository userRepository;
+    private final UserRepository userRepository;
 
-    public Response createPost(PostPostRequestDto requestDto)
+    public Response createPost(PostPostRequestDto requestDto, UserDetailsImpl userDetails)
     {
-        TestUser user = userRepository.findTestUserByNickname(requestDto.getNickname());
+        User user = userRepository.findByNickname(userDetails.getUser().getNickname()).orElse(null);
 
-        Post post = new Post(requestDto,user);
+        Post post = new Post(requestDto, user);
         postRepository.save(post);
 
         Response response = new Response();
@@ -81,10 +82,14 @@ public class PostService
     }
 
     @Transactional // SQL 쿼리가 일어나야 함을 스프링에게 알려줌
-    public Response updatePost(PostPutRequestDto requestDto, Long postId)
+    public Response updatePost(PostPutRequestDto requestDto, Long postId, UserDetailsImpl userDetails)
     {
         Post getPost= postRepository.findById(postId).orElseThrow(
                 ()-> new IllegalArgumentException("해당 포스트 없음") );
+
+        if (!getPost.getId().getId().equals(userDetails.getUser().getId())) {
+            throw new IllegalArgumentException("작성자만 수정할수 있습니다.");
+        }
 
         getPost.update(requestDto);
 
@@ -95,8 +100,16 @@ public class PostService
 
     }
 
-    public Response deletePost(Long postId)
+    public Response deletePost(Long postId, UserDetailsImpl userDetails)
     {
+        Post post = postRepository.findById(postId).orElseThrow(
+                () -> new IllegalArgumentException("글이 존재하지 않습니다.")
+        );
+
+        if (!post.getId().getId().equals(userDetails.getUser().getId())) {
+            throw new IllegalArgumentException("작성자만 삭제할수 있습니다.");
+        }
+
         postRepository.deleteById(postId);
 
         Response response = new Response();

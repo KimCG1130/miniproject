@@ -6,7 +6,9 @@ import com.sparta.miniproject.Post.RequestDto.PostPutRequestDto;
 import com.sparta.miniproject.Post.ResponseDto.PostGetResponse;
 import com.sparta.miniproject.Post.ResponseDto.PostPostResponse;
 import com.sparta.miniproject.model.Response;
+import com.sparta.miniproject.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -17,9 +19,9 @@ public class PostController
 
     // 글 작성
     @PostMapping("/post")
-    public Response createMemo(@RequestBody PostPostRequestDto requestDto)
+    public Response createMemo(@RequestBody PostPostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
-        return postService.createPost(requestDto);
+        return postService.createPost(requestDto, userDetails);
     }
 
     // 전체 글 조회
@@ -31,16 +33,16 @@ public class PostController
 
     // 글 수정
     @PutMapping("/post/{postId}")
-    public Response updatePost(@RequestBody PostPutRequestDto requestDto, @PathVariable Long postId)
+    public Response updatePost(@RequestBody PostPutRequestDto requestDto, @PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
-        return postService.updatePost(requestDto,postId);
+        return postService.updatePost(requestDto,postId, userDetails);
     }
 
     // 글 삭제
     @DeleteMapping("post/{postId}")
-    public Response deletePost(@PathVariable Long postId)
+    public Response deletePost(@PathVariable Long postId,@AuthenticationPrincipal UserDetailsImpl userDetails)
     {
-        return postService.deletePost(postId);
+        return postService.deletePost(postId, userDetails);
     }
 
     // 해당 글 조회

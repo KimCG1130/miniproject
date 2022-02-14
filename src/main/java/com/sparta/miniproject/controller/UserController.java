@@ -20,7 +20,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/userView/login")
+    @GetMapping("/user/login")
     public String login() {
         return "login.html";
     }

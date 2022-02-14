@@ -6,6 +6,7 @@ import com.sparta.miniproject.Post.RequestDto.PostPostRequestDto;
 import com.sparta.miniproject.Post.RequestDto.PostPutRequestDto;
 import com.sparta.miniproject.Post.TestUser.TestUser;
 import com.sparta.miniproject.model.Timestamped;
+import com.sparta.miniproject.model.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -47,10 +48,10 @@ public class Post extends Timestamped
     private int commentCnt;
 
     @ManyToOne
-    @JoinColumn ( name = "user_id")
-    private TestUser Id;
+    @JoinColumn
+    private User Id;
 
-    public Post(PostPostRequestDto requestDto, TestUser user)
+    public Post(PostPostRequestDto requestDto, User user)
     {
         this.title = requestDto.getTitle();
         this.content = requestDto.getContent();
