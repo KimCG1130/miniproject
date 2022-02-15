@@ -17,7 +17,13 @@ public class CorsConfig {
         config.addAllowedOriginPattern("*");
         config.addAllowedOrigin("http://**");
         config.addAllowedHeader("*");
-        config.addAllowedMethod("*");
+        config.addAllowedMethod("PUT");
+        config.addAllowedMethod("GET");
+        config.addAllowedMethod("POST");
+        config.addAllowedMethod("DELETE");
+        config.addAllowedMethod("PATCH");
+        config.addAllowedMethod("OPTION");
+
 
         source.registerCorsConfiguration("/user/**", config);
         source.registerCorsConfiguration("/post/**", config);

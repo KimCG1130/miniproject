@@ -111,7 +111,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         corsConfiguration.addAllowedMethod("*");
         corsConfiguration.setAllowedOrigins(Arrays.asList("*"));
         corsConfiguration.setAllowedOrigins(Arrays.asList("*"));
-        corsConfiguration.setAllowedMethods(Arrays.asList("*"));
+        corsConfiguration.setAllowedMethods(Arrays.asList("PUT, GET, DELETE, POST, OPTION, PATCH, HEAD"));
         corsConfiguration.setAllowedHeaders(Arrays.asList("*"));
         corsConfiguration.setMaxAge(3600L);
         corsConfiguration.setAllowCredentials(true);
