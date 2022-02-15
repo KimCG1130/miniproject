@@ -1,17 +1,21 @@
 package com.sparta.miniproject.controller;
 
+import com.sparta.miniproject.dto.LoginDto;
 import com.sparta.miniproject.dto.UserRequestDto;
-import com.sparta.miniproject.dto.UserResponseDto;
+import com.sparta.miniproject.model.ReturnUser;
+import com.sparta.miniproject.model.User;
 import com.sparta.miniproject.security.UserDetailsImpl;
 import com.sparta.miniproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 //@CrossOrigin(origins = "*",allowCredentials = "false")
-@Controller
+@RestController
 public class UserController {
 
     private final UserService userService;
@@ -21,21 +25,24 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/user/login")
-    public String login() {
-        System.out.println("getlogin");
-        return "login";
-    }
-
+    // 회원 가입 요청 처리
     @PostMapping("/user/signup")
-    public String registerUser(UserRequestDto requestDto) {
-        userService.registerUser(requestDto);
-        return "redirect:/user/login";
+    public ResponseEntity<User> registerUser(@RequestBody UserRequestDto requestDto) {
+        User user = userService.registerUser(requestDto);
+        return ResponseEntity.ok(user);
     }
 
-//    @GetMapping("/user/islogin")
-//    public String islogin(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-//        return "index.html";
-//    }
+    // 로그인
+    @PostMapping("/user/login")
+    public ReturnUser login(@RequestBody LoginDto loginDto) {
+        return userService.login(loginDto);
+    }
+
+    @GetMapping("/user/loginInfo")
+    public ResponseEntity<User> login(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        User user = userDetails.getUser();
+        return ResponseEntity.ok(user);
+    }
 }
+
 

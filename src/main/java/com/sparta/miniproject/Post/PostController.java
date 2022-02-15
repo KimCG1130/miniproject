@@ -21,13 +21,6 @@ public class PostController
     @PostMapping("/post")
     public Response createMemo(@RequestBody PostPostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
-        System.out.println(requestDto.getCity());
-        System.out.println(requestDto.getContent());
-        System.out.println(requestDto.getCountry());
-        System.out.println(requestDto.getEvaluation());
-        System.out.println(requestDto.getImgUrl());
-        System.out.println(requestDto.getNickname());
-        System.out.println(requestDto.getTitle());
         return postService.createPost(requestDto, userDetails);
     }
 
