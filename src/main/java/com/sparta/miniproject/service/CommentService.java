@@ -3,7 +3,6 @@ package com.sparta.miniproject.service;
 import com.sparta.miniproject.dto.CommentRequestDto;
 import com.sparta.miniproject.model.Comment;
 //import com.sparta.miniproject.model.Post;
-import com.sparta.miniproject.model.Post;
 import com.sparta.miniproject.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
