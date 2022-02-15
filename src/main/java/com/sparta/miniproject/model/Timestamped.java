@@ -16,10 +16,7 @@ import java.time.LocalDateTime;
 public abstract class Timestamped {
 
     @CreationTimestamp
-    private Timestamp createdAt;
-
-    @CreationTimestamp
-    private Timestamp commentDate;
+    private LocalDateTime createdAt;
 
     @LastModifiedDate
     private LocalDateTime modifiedAt;

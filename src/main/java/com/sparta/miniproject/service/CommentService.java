@@ -1,18 +1,25 @@
 package com.sparta.miniproject.service;
 
+import com.sparta.miniproject.Post.Post;
 import com.sparta.miniproject.dto.CommentRequestDto;
+import com.sparta.miniproject.dto.CommentResponseDto;
 import com.sparta.miniproject.model.Comment;
-//import com.sparta.miniproject.model.Post;
+import com.sparta.miniproject.Post.Post;
+import com.sparta.miniproject.Post.PostRepository;
+import com.sparta.miniproject.model.User;
 import com.sparta.miniproject.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @RequiredArgsConstructor
 @Service
 public class CommentService {
-
+    private final PostRepository postRepository;
     private final CommentRepository commentRepository;
 
 //    @Transactional
@@ -47,13 +54,26 @@ public class CommentService {
 //
 //    }
 
+    public List<Comment> getList(){
+
+//        return commentRepository.findAllByOrderByCreatedAtDesc().stream().map(comment -> comment.toDto())//board를 dto로 변환 stream.map:list
+//                .collect(Collectors.toList());
+        return commentRepository.findAllByOrderByCreatedAtDesc();
+
+    }
+
     @Transactional
-    //public Comment saveComment(Long id, CommentRequestDto commentRequestDto) {//저 id는 post id임 포스트연결할때 윗주석쓰기
-    public Comment saveComment(CommentRequestDto commentRequestDto) {//저 id는 post id임
+    public Comment saveComment(Long postId, CommentRequestDto commentRequestDto, User user) {//저 id는 post id임 포스트연결할때 윗주석쓰기
+    //public Comment saveComment(CommentRequestDto commentRequestDto) {//저 id는 post id임
+
+        Post post = postRepository.findById(postId).orElseThrow(
+                () -> new IllegalArgumentException("해당하는 게시글을 찾을 수 없습니다.")
+        );
 
         Comment comment = Comment.builder()
 
                 .comment(commentRequestDto.getComment())
+                .user(user)
                 .build();
 
         return commentRepository.save(comment);
