@@ -89,6 +89,7 @@ public class UserService {
             }
             returnUser.setToken(jwtTokenProvider.createToken(member.getUsername()));
             returnUser.setUsername(member.getUsername());
+            returnUser.setNickname(member.getNickname());
             return returnUser;
         } catch (IllegalArgumentException e) {
             returnUser.setMsg(e.getMessage());

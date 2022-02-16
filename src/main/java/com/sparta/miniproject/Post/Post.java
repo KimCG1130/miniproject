@@ -1,10 +1,8 @@
 package com.sparta.miniproject.Post;
 
 
-
 import com.sparta.miniproject.Post.RequestDto.PostPostRequestDto;
 import com.sparta.miniproject.Post.RequestDto.PostPutRequestDto;
-import com.sparta.miniproject.Post.TestUser.TestUser;
 import com.sparta.miniproject.model.Timestamped;
 import com.sparta.miniproject.model.User;
 import lombok.Getter;
@@ -50,6 +48,10 @@ public class Post extends Timestamped
     @ManyToOne
     @JoinColumn
     private User Id;
+
+//    @OneToMany(mappedBy = "post")
+//    @JoinColumn
+//    private List<Like> likes = new ArrayList<Like>();
 
     public Post(PostPostRequestDto requestDto, User user)
     {

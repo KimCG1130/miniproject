@@ -37,6 +37,10 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
 
+//    @OneToMany(mappedBy = "user")
+//    @JoinColumn
+//    private List<Like> likes = new ArrayList<Like>();
+
     public User(String username, String nickname, String password, String user_profile, UserRoleEnum role) {
         this.username = username;
         this.nickname = nickname;
