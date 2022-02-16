@@ -47,9 +47,9 @@ public class PostController
 
     // 해당 글 조회
     @GetMapping("/post/{postId}")
-    public PostGetResponse getPost(@PathVariable Long postId)
+    public PostGetResponse getPost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
-        return postService.getPost(postId);
+        return postService.getPost(postId, userDetails);
     }
 
 

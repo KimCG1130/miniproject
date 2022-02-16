@@ -1,11 +1,14 @@
 package com.sparta.miniproject.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter // get 함수를 일괄적으로 만들어줍니다.
@@ -37,9 +40,9 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
 
-//    @OneToMany(mappedBy = "user")
-//    @JoinColumn
-//    private List<Like> likes = new ArrayList<Like>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @JsonIgnoreProperties({"user"})
+    private List<Likes> likes = new ArrayList<Likes>();
 
     public User(String username, String nickname, String password, String user_profile, UserRoleEnum role) {
         this.username = username;

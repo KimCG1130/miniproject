@@ -27,15 +27,15 @@ public class PostPostResponseDto
 
     String nickname;
 
-    public PostPostResponseDto(Post post)
+    public PostPostResponseDto(Post post, int likeCnt, int commentCnt)
     {
        this.postId = post.getPostId();
        this.title =post.getTitle();
        this.imgUrl =post.getImgUrl();
        this.country =post.getCountry();
        this.city =post.getCity();
-       this.likeCnt =post.getLikeCnt();
-       this.commentCnt = post.getCommentCnt();
+       this.likeCnt = likeCnt;
+       this.commentCnt = commentCnt;
        this.nickname =post.getId().getNickname();
     }
 }

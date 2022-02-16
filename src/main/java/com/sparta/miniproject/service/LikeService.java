@@ -44,10 +44,10 @@ public class LikeService {
             bool = true;
         }
         else {
-            likeRepository.deleteById(likesCheck.getId());
             likes = likeRepository.findByUser(userDetails.getUser()).orElseThrow(
                     () -> new IllegalArgumentException("존재하지 않는 유저")
             );
+            likeRepository.deleteById(likesCheck.getId());
         }
         List<Likes> likesList = likeRepository.findAllByPost(post);
         System.out.println("likes 리턴 직전");

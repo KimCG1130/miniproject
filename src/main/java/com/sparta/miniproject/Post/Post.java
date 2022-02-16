@@ -1,8 +1,11 @@
 package com.sparta.miniproject.Post;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sparta.miniproject.Post.RequestDto.PostPostRequestDto;
 import com.sparta.miniproject.Post.RequestDto.PostPutRequestDto;
+import com.sparta.miniproject.model.Comment;
+import com.sparta.miniproject.model.Likes;
 import com.sparta.miniproject.model.Timestamped;
 import com.sparta.miniproject.model.User;
 import lombok.Getter;
@@ -10,6 +13,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter // get 함수를 일괄적으로 만들어줍니다.
@@ -49,9 +54,13 @@ public class Post extends Timestamped
     @JoinColumn
     private User Id;
 
-//    @OneToMany(mappedBy = "post")
-//    @JoinColumn
-//    private List<Like> likes = new ArrayList<Like>();
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    @JsonIgnoreProperties({"post"})
+    private List<Likes> likes = new ArrayList<Likes>();
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    @JsonIgnoreProperties({"post"})
+    private List<Comment> commentList = new ArrayList<Comment>();
 
     public Post(PostPostRequestDto requestDto, User user)
     {

@@ -28,6 +28,7 @@ public class CorsConfig {
         source.registerCorsConfiguration("/user/**", config);
         source.registerCorsConfiguration("/post/**", config);
         source.registerCorsConfiguration("/like/**", config);
+        source.registerCorsConfiguration("/comment/**", config);
         return new CorsFilter(source);
     }
 }

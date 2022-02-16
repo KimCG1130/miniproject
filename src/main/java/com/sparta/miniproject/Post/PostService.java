@@ -6,8 +6,12 @@ import com.sparta.miniproject.Post.ResponseDto.PostGetResponse;
 import com.sparta.miniproject.Post.ResponseDto.PostGetResponseDto;
 import com.sparta.miniproject.Post.ResponseDto.PostPostResponse;
 import com.sparta.miniproject.Post.ResponseDto.PostPostResponseDto;
+import com.sparta.miniproject.model.Comment;
+import com.sparta.miniproject.model.Likes;
 import com.sparta.miniproject.model.Response;
 import com.sparta.miniproject.model.User;
+import com.sparta.miniproject.repository.CommentRepository;
+import com.sparta.miniproject.repository.LikeRepository;
 import com.sparta.miniproject.repository.UserRepository;
 import com.sparta.miniproject.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +28,8 @@ public class PostService
 {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final LikeRepository likeRepository;
+    private final CommentRepository commentRepository;
 
     public Response createPost(PostPostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
@@ -63,7 +69,10 @@ public class PostService
 
         for ( Post index : DBresponse)
         {
-            PostPostResponseDto postResponseDto = new PostPostResponseDto(index);
+            List<Comment> commentList = commentRepository.findAllByPost(index);
+            List<Likes> likesList = likeRepository.findAllByPost(index);
+
+            PostPostResponseDto postResponseDto = new PostPostResponseDto(index, likesList.size(), commentList.size());
             Response.add(postResponseDto);
 //            System.out.println(postResponseDto.getPostId());
 //            System.out.println(postResponseDto.getTitle());
@@ -121,12 +130,18 @@ public class PostService
         return response;
     }
 
-    public PostGetResponse getPost(Long postId)
+    public PostGetResponse getPost(Long postId, UserDetailsImpl userDetails)
     {
         Post getPost =  postRepository.findById(postId).orElseThrow(
                 ()->new IllegalArgumentException("해당 글이 존재하지 않습니다."));
 
-        PostGetResponseDto postGetResponseDto = new PostGetResponseDto(getPost);
+        Likes likes = likeRepository.findByUserAndPost(userDetails.getUser(), getPost).orElse(null);
+
+        List<Likes> likesList = getPost.getLikes();
+        boolean islike = false;
+        islike = likes != null;
+
+        PostGetResponseDto postGetResponseDto = new PostGetResponseDto(getPost, likesList.size(), islike);
 
         PostGetResponse postGetResponse = new PostGetResponse();
 

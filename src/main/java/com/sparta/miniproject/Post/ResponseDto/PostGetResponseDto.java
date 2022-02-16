@@ -32,9 +32,11 @@ public class PostGetResponseDto
 
     int commentCnt;
 
+    boolean islike;
+
     String nickname;
 
-    public PostGetResponseDto(Post post)
+    public PostGetResponseDto(Post post, int likeCnt, boolean islike)
     {
        this.postId = post.getPostId();
        this.postDate = post.getCreatedAt();
@@ -44,7 +46,8 @@ public class PostGetResponseDto
        this.city =post.getCity();
        this.evalution = post.getEvalution();
        this.content = post.getContent();
-       this.likeCnt =post.getLikeCnt();
+       this.likeCnt = likeCnt;
+       this.islike = islike;
        this.commentCnt = post.getCommentCnt();
        this.nickname =post.getId().getNickname();
 
