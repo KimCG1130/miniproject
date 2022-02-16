@@ -40,8 +40,7 @@ public class UserController {
 
     @GetMapping("/user/loginInfo")
     public ResponseEntity<User> login(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        User user = userDetails.getUser();
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(userService.loginInfo(userDetails));
     }
 }
 

@@ -7,6 +7,7 @@ import com.sparta.miniproject.model.User;
 import com.sparta.miniproject.model.UserRoleEnum;
 import com.sparta.miniproject.repository.UserRepository;
 import com.sparta.miniproject.security.JwtTokenProvider;
+import com.sparta.miniproject.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -95,5 +96,12 @@ public class UserService {
             returnUser.setMsg(e.getMessage());
             return returnUser;
         }
+    }
+
+    @Transactional
+    public User loginInfo(UserDetailsImpl userDetails) {
+        return userRepository.findById(userDetails.getUser().getId()).orElseThrow(
+                () -> new IllegalArgumentException("오류")
+        );
     }
 }

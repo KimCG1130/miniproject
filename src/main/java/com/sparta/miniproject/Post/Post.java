@@ -32,7 +32,7 @@ public class Post extends Timestamped
     @Column(nullable = false)
     private String content;
 
-    @Column
+    @Column(columnDefinition = "text", length = 5000)
     private String imgUrl;
 
     @Column(nullable = false)
@@ -54,11 +54,11 @@ public class Post extends Timestamped
     @JoinColumn
     private User Id;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"post"})
     private List<Likes> likes = new ArrayList<Likes>();
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"post"})
     private List<Comment> commentList = new ArrayList<Comment>();
 

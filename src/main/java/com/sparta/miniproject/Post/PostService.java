@@ -137,11 +137,13 @@ public class PostService
 
         Likes likes = likeRepository.findByUserAndPost(userDetails.getUser(), getPost).orElse(null);
 
+        List<Comment> commentList = commentRepository.findAllByPost(getPost);
+
         List<Likes> likesList = getPost.getLikes();
         boolean islike = false;
         islike = likes != null;
 
-        PostGetResponseDto postGetResponseDto = new PostGetResponseDto(getPost, likesList.size(), islike);
+        PostGetResponseDto postGetResponseDto = new PostGetResponseDto(getPost, likesList.size(), islike, commentList.size());
 
         PostGetResponse postGetResponse = new PostGetResponse();
 
