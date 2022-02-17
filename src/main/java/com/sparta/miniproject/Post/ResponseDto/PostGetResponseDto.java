@@ -44,12 +44,12 @@ public class PostGetResponseDto
        this.imgUrl =post.getImgUrl();
        this.country =post.getCountry();
        this.city =post.getCity();
-       this.evalution = post.getEvalution();
+       this.evalution = post.getEvaluation();
        this.content = post.getContent();
        this.likeCnt = likeCnt;
        this.islike = islike;
        this.commentCnt = commentCnt;
-       this.nickname =post.getId().getNickname();
+       this.nickname =post.getUser().getNickname();
 
     }
 }

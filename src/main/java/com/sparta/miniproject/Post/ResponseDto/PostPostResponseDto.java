@@ -36,6 +36,18 @@ public class PostPostResponseDto
        this.city =post.getCity();
        this.likeCnt = likeCnt;
        this.commentCnt = commentCnt;
-       this.nickname =post.getId().getNickname();
+       this.nickname =post.getUser().getNickname();
+    }
+
+    public PostPostResponseDto(Post post)
+    {
+        this.postId = post.getPostId();
+        this.title =post.getTitle();
+        this.imgUrl =post.getImgUrl();
+        this.country =post.getCountry();
+        this.city =post.getCity();
+        this.likeCnt = post.getLikeCnt();
+        this.commentCnt = post.getCommentCnt();
+        this.nickname =post.getUser().getNickname();
     }
 }

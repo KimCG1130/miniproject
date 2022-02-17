@@ -32,7 +32,7 @@ public class Post extends Timestamped
     @Column(nullable = false)
     private String content;
 
-    @Column(columnDefinition = "text", length = 5000)
+    @Column(columnDefinition = "mediumblob")
     private String imgUrl;
 
     @Column(nullable = false)
@@ -42,7 +42,7 @@ public class Post extends Timestamped
     private String city;
 
     @Column(nullable = false)
-    private String evalution;
+    private String evaluation;
 
     @Column(nullable = false)
     private int likeCnt;
@@ -52,7 +52,7 @@ public class Post extends Timestamped
 
     @ManyToOne
     @JoinColumn
-    private User Id;
+    private User user;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"post"})
@@ -69,10 +69,10 @@ public class Post extends Timestamped
         this.imgUrl = requestDto.getImgUrl();
         this.country =requestDto.getCountry();
         this.city = requestDto.getCity();
-        this.evalution = requestDto.getEvaluation();
+        this.evaluation = requestDto.getEvaluation();
         this.likeCnt = 0;
         this.commentCnt = 0;
-        this.Id = user;
+        this.user = user;
     }
 
     public void update(PostPutRequestDto requestDto)
@@ -82,7 +82,7 @@ public class Post extends Timestamped
         this.imgUrl = requestDto.getImgUrl();
         this.country =requestDto.getCountry();
         this.city = requestDto.getCity();
-        this.evalution = requestDto.getEvaluation();
+        this.evaluation = requestDto.getEvaluation();
         this.likeCnt = 0;
         this.commentCnt = 0;
 

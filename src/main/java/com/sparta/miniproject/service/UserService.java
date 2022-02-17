@@ -1,10 +1,16 @@
 package com.sparta.miniproject.service;
 
+import com.sparta.miniproject.Post.Post;
+import com.sparta.miniproject.Post.PostRepository;
+import com.sparta.miniproject.Post.ResponseDto.PostPostResponse;
+import com.sparta.miniproject.Post.ResponseDto.PostPostResponseDto;
 import com.sparta.miniproject.dto.LoginDto;
 import com.sparta.miniproject.dto.UserRequestDto;
+import com.sparta.miniproject.model.Likes;
 import com.sparta.miniproject.model.ReturnUser;
 import com.sparta.miniproject.model.User;
 import com.sparta.miniproject.model.UserRoleEnum;
+import com.sparta.miniproject.repository.LikeRepository;
 import com.sparta.miniproject.repository.UserRepository;
 import com.sparta.miniproject.security.JwtTokenProvider;
 import com.sparta.miniproject.security.UserDetailsImpl;
@@ -13,6 +19,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -23,6 +31,8 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
+    private final PostRepository postRepository;
+    private final LikeRepository likeRepository;
     private static final String ADMIN_TOKEN = "AAABnv/xRVklrnYxKZ0aHgTBcXukeZygoC";
 
     @Transactional
@@ -30,9 +40,15 @@ public class UserService {
 // 회원 ID 중복 확인
         String username = requestDto.getUsername();
         Optional<User> found = userRepository.findByUsername(username);
+        Optional<User> userNick = userRepository.findByNickname(requestDto.getNickname());
+
         if (found.isPresent()) {
             throw new IllegalArgumentException("중복된 사용자 ID 가 존재합니다.");
         }
+        if (userNick.isPresent()) {
+            throw new IllegalArgumentException("중복된 닉네임이 존재합니다.");
+        }
+
         System.out.println(requestDto.getUsername());
         if (requestDto.getUsername() == null) {
             throw new NullPointerException("아이디를 입력해주세요");
@@ -46,11 +62,18 @@ public class UserService {
         if (requestDto.getPassword() == null) {
             throw new NullPointerException("비밀번호를 입력해주세요");
         }
+        if (requestDto.getPasswordcheck() == null) {
+            throw new NullPointerException("비밀번호확인을 입력해주세요");
+        }
         if (Objects.equals(requestDto.getPassword(), "")) {
             throw new NullPointerException("비밀번호를 입력해주세요!!!!!!!!!!!!");
         }
         if (Objects.equals(requestDto.getNickname(), "")) {
             throw new NullPointerException("닉네입을 입력해주세요!!!!!!!!!!!!!!!");
+        }
+
+        if (!requestDto.getPassword().equals(requestDto.getPasswordcheck())) {
+            throw new IllegalArgumentException("비밀번호와 비밀번호 확인 값이 다릅니다.");
         }
 
 
@@ -103,5 +126,54 @@ public class UserService {
         return userRepository.findById(userDetails.getUser().getId()).orElseThrow(
                 () -> new IllegalArgumentException("오류")
         );
+    }
+
+    public Boolean idDuplicate(String username) {
+        if (userRepository.findByUsername(username).isPresent()) {
+            throw new IllegalArgumentException("이미 존재하는 아이디 입니다.");
+        }
+        return true;
+    }
+
+    public Boolean nicknameDuplicate(String nickname) {
+        if (userRepository.findByNickname(nickname).isPresent()) {
+            throw new IllegalArgumentException("이미 존재하는 닉네임입니다.");
+        }
+        return true;
+    }
+
+    public PostPostResponse myPost(UserDetailsImpl userDetails) {
+        List<Post> postList = postRepository.findAllByUser(userDetails.getUser());
+
+        List<PostPostResponseDto> postPostResponseDtoList = new ArrayList<>();
+
+        for (Post post: postList) {
+            PostPostResponseDto postPostResponseDto = new PostPostResponseDto(post);
+            postPostResponseDtoList.add(postPostResponseDto);
+        }
+
+        PostPostResponse postResponse = new PostPostResponse();
+
+        postResponse.setStatus(200);
+        postResponse.setPostResponseDto(postPostResponseDtoList);
+
+        return postResponse;
+    }
+
+    public PostPostResponse myLike(UserDetailsImpl userDetails) {
+        List<Likes> likes = likeRepository.findAllByUser(userDetails.getUser());
+        List<PostPostResponseDto> postPostResponseDtoList = new ArrayList<>();
+
+        for (Likes like : likes) {
+            PostPostResponseDto postPostResponseDto = new PostPostResponseDto(like.getPost());
+            postPostResponseDtoList.add(postPostResponseDto);
+        }
+
+        PostPostResponse postResponse = new PostPostResponse();
+
+        postResponse.setStatus(200);
+        postResponse.setPostResponseDto(postPostResponseDtoList);
+
+        return postResponse;
     }
 }

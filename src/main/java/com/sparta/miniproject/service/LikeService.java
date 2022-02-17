@@ -36,8 +36,6 @@ public class LikeService {
                 () -> new IllegalArgumentException("유저가 존재하지 않습니다.")
         );
 
-        System.out.println("likes 동작");
-
         Likes likes;
         if (likesCheck == null) {
             likes = likeRepository.save(likeRequestDto.toEntity(post, user));
@@ -50,7 +48,13 @@ public class LikeService {
             likeRepository.deleteById(likesCheck.getId());
         }
         List<Likes> likesList = likeRepository.findAllByPost(post);
-        System.out.println("likes 리턴 직전");
+
+        Post post1 = postRepository.findById(postId).orElseThrow(
+                () -> new IllegalArgumentException("오류")
+        );
+        post1.setLikeCnt(likesList.size());
+        postRepository.save(post1);
+
         return likes.toDto(bool, likesList.size());
     }
 }

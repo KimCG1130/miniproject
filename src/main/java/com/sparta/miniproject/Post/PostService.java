@@ -31,6 +31,7 @@ public class PostService
     private final LikeRepository likeRepository;
     private final CommentRepository commentRepository;
 
+    @Transactional
     public Response createPost(PostPostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails)
     {
         User user = userRepository.findByNickname(userDetails.getUser().getNickname()).orElse(null);
@@ -40,8 +41,6 @@ public class PostService
 
         Response response = new Response();
         response.setStatus(200);
-
-        System.out.println(user.getUsername());
 
         return response;
     }
@@ -60,7 +59,7 @@ public class PostService
         }
         else if ( postType.equals("like"))
         {
-            DBresponse = postRepository.findAllByOrderByLikeCnt();
+            DBresponse = postRepository.findAllByOrderByLikeCntDesc();
         }
         else
         {
@@ -99,7 +98,7 @@ public class PostService
         Post getPost= postRepository.findById(postId).orElseThrow(
                 ()-> new IllegalArgumentException("해당 포스트 없음") );
 
-        if (!getPost.getId().getId().equals(userDetails.getUser().getId())) {
+        if (!getPost.getUser().getId().equals(userDetails.getUser().getId())) {
             throw new IllegalArgumentException("작성자만 수정할수 있습니다.");
         }
 
@@ -118,7 +117,7 @@ public class PostService
                 () -> new IllegalArgumentException("글이 존재하지 않습니다.")
         );
 
-        if (!post.getId().getId().equals(userDetails.getUser().getId())) {
+        if (!post.getUser().getId().equals(userDetails.getUser().getId())) {
             throw new IllegalArgumentException("작성자만 삭제할수 있습니다.");
         }
 

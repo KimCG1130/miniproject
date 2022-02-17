@@ -1,5 +1,6 @@
 package com.sparta.miniproject.controller;
 
+import com.sparta.miniproject.Post.ResponseDto.PostPostResponse;
 import com.sparta.miniproject.dto.LoginDto;
 import com.sparta.miniproject.dto.UserRequestDto;
 import com.sparta.miniproject.model.ReturnUser;
@@ -41,6 +42,26 @@ public class UserController {
     @GetMapping("/user/loginInfo")
     public ResponseEntity<User> login(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return ResponseEntity.ok(userService.loginInfo(userDetails));
+    }
+
+    @GetMapping("/user/idcheck")
+    public ResponseEntity<Boolean> idDuplicate(@RequestBody String username) {
+        return ResponseEntity.ok(userService.idDuplicate(username));
+    }
+
+    @GetMapping("/user/nicknamecheck")
+    public ResponseEntity<Boolean> nicknameDuplicate(@RequestBody String nickname) {
+        return ResponseEntity.ok(userService.nicknameDuplicate(nickname));
+    }
+
+    @GetMapping("/user/mypost")
+    public ResponseEntity<PostPostResponse> myPost(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return ResponseEntity.ok(userService.myPost(userDetails));
+    }
+
+    @GetMapping("/user/mylike")
+    public ResponseEntity<PostPostResponse> myLike(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return ResponseEntity.ok(userService.myLike(userDetails));
     }
 }
 
