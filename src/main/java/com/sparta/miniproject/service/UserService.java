@@ -129,7 +129,7 @@ public class UserService {
     @Transactional
     public User loginInfo(UserDetailsImpl userDetails) {
         return userRepository.findById(userDetails.getUser().getId()).orElseThrow(
-                () -> new IllegalArgumentException("오류")
+                () -> new IllegalArgumentException("로그인 상태가 아닌 사용자입니다")
         );
     }
 

@@ -1,7 +1,9 @@
 package com.sparta.miniproject.Post.RequestDto;
 
 import lombok.Getter;
+import lombok.Setter;
 
+@Setter
 @Getter
 public class PostPostRequestDto
 {

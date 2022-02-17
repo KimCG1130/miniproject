@@ -55,7 +55,7 @@ public class PostService
 
         if ( postType.equals("time"))
         {
-            DBresponse = postRepository.findAllByOrderByCreatedAtDesc();
+            DBresponse = postRepository.findAllByOrderByCreatedAtAsc();
         }
         else if ( postType.equals("like"))
         {
