@@ -12,10 +12,10 @@ import java.util.List;
 @Builder
 public class CommentResponseDto {
     //Long id;
-    Long commentId;
-    String comment;
-    String nickname;
-    LocalDateTime commentDate;
+    private Long commentId;
+    private String comment;
+    private String nickname;
+    private LocalDateTime commentDate;
 
     public CommentGetResponseDto toCommentGetResponseDto(List<CommentResponseDto> commentResponseDtos) {
         return CommentGetResponseDto.builder()

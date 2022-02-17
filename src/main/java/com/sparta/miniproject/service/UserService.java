@@ -4,7 +4,9 @@ import com.sparta.miniproject.Post.Post;
 import com.sparta.miniproject.Post.PostRepository;
 import com.sparta.miniproject.Post.ResponseDto.PostPostResponse;
 import com.sparta.miniproject.Post.ResponseDto.PostPostResponseDto;
+import com.sparta.miniproject.dto.IdCheckRequestDto;
 import com.sparta.miniproject.dto.LoginDto;
+import com.sparta.miniproject.dto.NicknameCheckRequestDto;
 import com.sparta.miniproject.dto.UserRequestDto;
 import com.sparta.miniproject.model.Likes;
 import com.sparta.miniproject.model.ReturnUser;
@@ -49,7 +51,10 @@ public class UserService {
             throw new IllegalArgumentException("중복된 닉네임이 존재합니다.");
         }
 
-        System.out.println(requestDto.getUsername());
+        if (!username.matches("^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$")) {
+            throw new IllegalArgumentException("아이디는 email 형식으로 작성가능합니다.");
+        }
+
         if (requestDto.getUsername() == null) {
             throw new NullPointerException("아이디를 입력해주세요");
         }
@@ -69,7 +74,7 @@ public class UserService {
             throw new NullPointerException("비밀번호를 입력해주세요!!!!!!!!!!!!");
         }
         if (Objects.equals(requestDto.getNickname(), "")) {
-            throw new NullPointerException("닉네입을 입력해주세요!!!!!!!!!!!!!!!");
+            throw new NullPointerException("닉네임을 입력해주세요!!!!!!!!!!!!!!!");
         }
 
         if (!requestDto.getPassword().equals(requestDto.getPasswordcheck())) {
@@ -128,15 +133,15 @@ public class UserService {
         );
     }
 
-    public Boolean idDuplicate(String username) {
-        if (userRepository.findByUsername(username).isPresent()) {
+    public Boolean idDuplicate(IdCheckRequestDto idCheckRequestDto) {
+        if (userRepository.findByUsername(idCheckRequestDto.getUsername()).isPresent()) {
             throw new IllegalArgumentException("이미 존재하는 아이디 입니다.");
         }
         return true;
     }
 
-    public Boolean nicknameDuplicate(String nickname) {
-        if (userRepository.findByNickname(nickname).isPresent()) {
+    public Boolean nicknameDuplicate(NicknameCheckRequestDto nicknameCheckRequestDto) {
+        if (userRepository.findByNickname(nicknameCheckRequestDto.getNickname()).isPresent()) {
             throw new IllegalArgumentException("이미 존재하는 닉네임입니다.");
         }
         return true;

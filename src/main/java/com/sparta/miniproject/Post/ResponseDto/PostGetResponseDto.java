@@ -12,29 +12,29 @@ import java.time.LocalDateTime;
 @NoArgsConstructor // 기본 생성자를 만들어줍니다.
 public class PostGetResponseDto
 {
-    Long postId;
+    private Long postId;
 
-    LocalDateTime postDate;
+    private LocalDateTime postDate;
 
-    String title;
+    private String title;
 
-    String imgUrl;
+    private String imgUrl;
 
-    String country;
+    private String country;
 
-    String city;
+    private String city;
 
-    String evalution;
+    private String evaluation;
 
-    String content;
+    private String content;
 
-    int likeCnt;
+    private int likeCnt;
 
-    int commentCnt;
+    private int commentCnt;
 
-    boolean islike;
+    private boolean islike;
 
-    String nickname;
+    private String nickname;
 
     public PostGetResponseDto(Post post, int likeCnt, boolean islike, int commentCnt)
     {
@@ -44,7 +44,7 @@ public class PostGetResponseDto
        this.imgUrl =post.getImgUrl();
        this.country =post.getCountry();
        this.city =post.getCity();
-       this.evalution = post.getEvaluation();
+       this.evaluation = post.getEvaluation();
        this.content = post.getContent();
        this.likeCnt = likeCnt;
        this.islike = islike;

@@ -11,21 +11,21 @@ import lombok.Setter;
 @NoArgsConstructor // 기본 생성자를 만들어줍니다.
 public class PostPostResponseDto
 {
-    Long postId;
+    private Long postId;
 
-    String title;
+    private String title;
 
-    String imgUrl;
+    private String imgUrl;
 
-    String country;
+    private String country;
 
-    String city;
+    private String city;
 
-    int likeCnt;
+    private int likeCnt;
 
-    int commentCnt;
+    private int commentCnt;
 
-    String nickname;
+    private String nickname;
 
     public PostPostResponseDto(Post post, int likeCnt, int commentCnt)
     {

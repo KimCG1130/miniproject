@@ -5,17 +5,17 @@ import lombok.Getter;
 @Getter
 public class PostPostRequestDto
 {
-    String nickname;
+    private String nickname;
 
-    String imgUrl;
+    private String imgUrl;
 
-    String title;
+    private String title;
 
-    String country;
+    private String country;
 
-    String city;
+    private String city;
 
-    String evaluation;
+    private String evaluation;
 
-    String content;
+    private String content;
 }

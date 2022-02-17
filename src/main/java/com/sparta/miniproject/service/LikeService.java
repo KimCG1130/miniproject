@@ -26,7 +26,6 @@ public class LikeService {
     @Transactional
     public LikeResponseDto clickLike(Long postId, UserDetailsImpl userDetails) {
         LikeRequestDto likeRequestDto = new LikeRequestDto();
-        boolean bool = false;
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("찾으시는 글이 존재하지 않습니다.")
         );
@@ -36,25 +35,23 @@ public class LikeService {
                 () -> new IllegalArgumentException("유저가 존재하지 않습니다.")
         );
 
-        Likes likes;
+        Likes likes = new Likes();
         if (likesCheck == null) {
             likes = likeRepository.save(likeRequestDto.toEntity(post, user));
-            bool = true;
+            List<Likes> likesList = likeRepository.findAllByPost(post);
+
+            post.setLikeCnt(likesList.size());
+
+            return likes.toDto(true, likesList.size());
         }
         else {
-            likes = likeRepository.findByUser(userDetails.getUser()).orElseThrow(
-                    () -> new IllegalArgumentException("존재하지 않는 유저")
-            );
             likeRepository.deleteById(likesCheck.getId());
+
+            List<Likes> likesList = likeRepository.findAllByPost(post);
+
+            post.setLikeCnt(likesList.size());
+
+            return likesCheck.toDto(false, likesList.size());
         }
-        List<Likes> likesList = likeRepository.findAllByPost(post);
-
-        Post post1 = postRepository.findById(postId).orElseThrow(
-                () -> new IllegalArgumentException("오류")
-        );
-        post1.setLikeCnt(likesList.size());
-        postRepository.save(post1);
-
-        return likes.toDto(bool, likesList.size());
     }
 }
