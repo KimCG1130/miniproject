@@ -1,12 +1,10 @@
 package com.sparta.miniproject.controller;
 
 import com.sparta.miniproject.dto.CommentRequestDto;
-import com.sparta.miniproject.model.Comment;
 import com.sparta.miniproject.dto.CommentResponseDto;
 import com.sparta.miniproject.security.UserDetailsImpl;
 import com.sparta.miniproject.service.CommentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,13 +16,13 @@ public class CommentController {
     private final CommentService commentService;
 
     @GetMapping("/comment/{postId}")
-    public List<Comment> getComment(){
-        return commentService.getList();
+    public List<CommentResponseDto> getComment(@PathVariable Long postId){
+        return commentService.getList(postId);
 
     }
 
     @PostMapping("/comment/{postId}")
-    public CommentResponseDto saveComment(@PathVariable Long postId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetailsImpl) {
+    public CommentRequestDto saveComment(@PathVariable Long postId, @RequestBody CommentRequestDto commentRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetailsImpl) {
     //public CommentResponseDto saveComment(@PathVariable Long id, @RequestBody CommentRequestDto commentRequestDto) {//1
     //public CommentResponseDto saveComment(@RequestBody CommentRequestDto commentRequestDto) {//2
 
@@ -37,7 +35,7 @@ public class CommentController {
 
         //return new CommentResponseDto(HttpStatus.CREATED.value(), "댓글 작성이 완료되었습니다.", null);
 
-        return new CommentResponseDto();
+        return new CommentRequestDto();
     }
 //댓글 예시
 //    @PostMapping("/posts/{id}/reply")

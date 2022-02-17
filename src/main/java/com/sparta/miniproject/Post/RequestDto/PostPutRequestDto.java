@@ -9,15 +9,15 @@ import lombok.Setter;
 @RequiredArgsConstructor
 public class PostPutRequestDto
 {
-    String imgUrl;
+    private String imgUrl;
 
-    String title;
+    private String title;
 
-    String country;
+    private String country;
 
-    String city;
+    private String city;
 
-    String evaluation;
+    private String evaluation;
 
-    String content;
+    private String content;
 }

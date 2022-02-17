@@ -10,9 +10,9 @@ import java.util.List;
 @Setter
 public class PostPostResponse
 {
-    int status;
+    private int status;
 
-    List<PostPostResponseDto> postResponseDto;
+    private List<PostPostResponseDto> postResponseDto;
 
 
 }

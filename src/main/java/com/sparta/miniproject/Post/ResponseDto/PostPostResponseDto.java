@@ -11,31 +11,43 @@ import lombok.Setter;
 @NoArgsConstructor // 기본 생성자를 만들어줍니다.
 public class PostPostResponseDto
 {
-    Long postId;
+    private Long postId;
 
-    String title;
+    private String title;
 
-    String imgUrl;
+    private String imgUrl;
 
-    String country;
+    private String country;
 
-    String city;
+    private String city;
 
-    int likeCnt;
+    private int likeCnt;
 
-    int commentCnt;
+    private int commentCnt;
 
-    String nickname;
+    private String nickname;
 
-    public PostPostResponseDto(Post post)
+    public PostPostResponseDto(Post post, int likeCnt, int commentCnt)
     {
        this.postId = post.getPostId();
        this.title =post.getTitle();
        this.imgUrl =post.getImgUrl();
        this.country =post.getCountry();
        this.city =post.getCity();
-       this.likeCnt =post.getLikeCnt();
-       this.commentCnt = post.getCommentCnt();
-       this.nickname =post.getId().getNickname();
+       this.likeCnt = likeCnt;
+       this.commentCnt = commentCnt;
+       this.nickname =post.getUser().getNickname();
+    }
+
+    public PostPostResponseDto(Post post)
+    {
+        this.postId = post.getPostId();
+        this.title =post.getTitle();
+        this.imgUrl =post.getImgUrl();
+        this.country =post.getCountry();
+        this.city =post.getCity();
+        this.likeCnt = post.getLikeCnt();
+        this.commentCnt = post.getCommentCnt();
+        this.nickname =post.getUser().getNickname();
     }
 }

@@ -2,15 +2,13 @@ package com.sparta.miniproject.model;
 
 import com.sparta.miniproject.Post.Post;
 import com.sparta.miniproject.dto.CommentRequestDto;
-import com.sparta.miniproject.model.Timestamped;
-import com.sparta.miniproject.repository.CommentRepository;
-//import com.sparta.miniproject.model.Post;
-import com.sparta.miniproject.model.User;
-import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
+import com.sparta.miniproject.dto.CommentResponseDto;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Builder
 @Getter
@@ -31,11 +29,11 @@ public class Comment extends Timestamped {
 //    private LocalDateTime commentDate;
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "postId")
     private Post post;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "nickname")
     private User user;
 
@@ -51,6 +49,15 @@ public class Comment extends Timestamped {
 
                 .comment(this.comment)
                 //.commentDate(this.getCommentDate())
+                .build();
+    }
+
+    public CommentResponseDto tocommentResponseDto() {
+        return CommentResponseDto.builder()
+                .commentDate(this.getCreatedAt())
+                .commentId(commentId)
+                .comment(comment)
+                .nickname(user.getNickname())
                 .build();
     }
 }

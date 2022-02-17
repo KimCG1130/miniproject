@@ -1,20 +1,26 @@
 package com.sparta.miniproject.dto;
 
-import com.sparta.miniproject.model.Comment;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Setter
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class CommentResponseDto {
     //Long id;
-    Long commentId;
-    String comment;
-    String nickname;
-    LocalDateTime commentDate;
+    private Long commentId;
+    private String comment;
+    private String nickname;
+    private LocalDateTime commentDate;
+
+    public CommentGetResponseDto toCommentGetResponseDto(List<CommentResponseDto> commentResponseDtos) {
+        return CommentGetResponseDto.builder()
+                .commentResponseDtoListList(commentResponseDtos)
+                .build();
+    }
 
 }

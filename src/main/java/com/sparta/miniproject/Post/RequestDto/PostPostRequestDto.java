@@ -1,21 +1,23 @@
 package com.sparta.miniproject.Post.RequestDto;
 
 import lombok.Getter;
+import lombok.Setter;
 
+@Setter
 @Getter
 public class PostPostRequestDto
 {
-    String nickname;
+    private String nickname;
 
-    String imgUrl;
+    private String imgUrl;
 
-    String title;
+    private String title;
 
-    String country;
+    private String country;
 
-    String city;
+    private String city;
 
-    String evaluation;
+    private String evaluation;
 
-    String content;
+    private String content;
 }

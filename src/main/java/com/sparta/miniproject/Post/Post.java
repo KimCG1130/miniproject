@@ -1,16 +1,20 @@
 package com.sparta.miniproject.Post;
 
 
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sparta.miniproject.Post.RequestDto.PostPostRequestDto;
 import com.sparta.miniproject.Post.RequestDto.PostPutRequestDto;
-import com.sparta.miniproject.Post.TestUser.TestUser;
+import com.sparta.miniproject.model.Comment;
+import com.sparta.miniproject.model.Likes;
 import com.sparta.miniproject.model.Timestamped;
+import com.sparta.miniproject.model.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter // get 함수를 일괄적으로 만들어줍니다.
@@ -28,7 +32,7 @@ public class Post extends Timestamped
     @Column(nullable = false)
     private String content;
 
-    @Column
+    @Column(columnDefinition = "mediumblob")
     private String imgUrl;
 
     @Column(nullable = false)
@@ -38,7 +42,7 @@ public class Post extends Timestamped
     private String city;
 
     @Column(nullable = false)
-    private String evalution;
+    private String evaluation;
 
     @Column(nullable = false)
     private int likeCnt;
@@ -47,20 +51,28 @@ public class Post extends Timestamped
     private int commentCnt;
 
     @ManyToOne
-    @JoinColumn ( name = "user_id")
-    private TestUser Id;
+    @JoinColumn
+    private User user;
 
-    public Post(PostPostRequestDto requestDto, TestUser user)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"post"})
+    private List<Likes> likes = new ArrayList<Likes>();
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"post"})
+    private List<Comment> commentList = new ArrayList<Comment>();
+
+    public Post(PostPostRequestDto requestDto, User user)
     {
         this.title = requestDto.getTitle();
         this.content = requestDto.getContent();
         this.imgUrl = requestDto.getImgUrl();
         this.country =requestDto.getCountry();
         this.city = requestDto.getCity();
-        this.evalution = requestDto.getEvaluation();
+        this.evaluation = requestDto.getEvaluation();
         this.likeCnt = 0;
         this.commentCnt = 0;
-        this.Id = user;
+        this.user = user;
     }
 
     public void update(PostPutRequestDto requestDto)
@@ -70,7 +82,7 @@ public class Post extends Timestamped
         this.imgUrl = requestDto.getImgUrl();
         this.country =requestDto.getCountry();
         this.city = requestDto.getCity();
-        this.evalution = requestDto.getEvaluation();
+        this.evaluation = requestDto.getEvaluation();
         this.likeCnt = 0;
         this.commentCnt = 0;
 
