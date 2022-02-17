@@ -24,4 +24,5 @@
 
 
 
-https://www.notion.so/Trip-Talk-46f9f72bdb4441f88b1d84b28eaf0d5f
+7조 노션:https://www.notion.so/Trip-Talk-46f9f72bdb4441f88b1d84b28eaf0d5f
+7조 미니프로젝트 대시보드:https://docs.google.com/spreadsheets/d/1TMpVo766xjbxrywPBZOxvpdPPqtIuxr1UEk4OoVd_NU/edit#gid=2058877873
