@@ -8,7 +8,11 @@
 
  게시글은 모두가 볼 수 있고, 댓글기능과 좋아요 기능은 로그인 한 사람만 이용할 수 있습니다.
 
- 좋아요를 많이 받은 글이 먼저 정렬됩니다.
+ 좋아요를 많이 받은 글이 먼저 정렬됩니다. 혹은 작성 순으로 정렬 가능합니다.
+ 
+ 마이페이지에서 좋아요 한 글과 본인이 쓴 글을 모아볼 수 있습니다. 
+ 
+ 
 
 
 # Trouble Shooting
@@ -24,5 +28,5 @@
 
 
 
-7조 노션:https://www.notion.so/Trip-Talk-46f9f72bdb4441f88b1d84b28eaf0d5f
-7조 미니프로젝트 대시보드:https://docs.google.com/spreadsheets/d/1TMpVo766xjbxrywPBZOxvpdPPqtIuxr1UEk4OoVd_NU/edit#gid=2058877873
+### 7조 노션:https://www.notion.so/Trip-Talk-46f9f72bdb4441f88b1d84b28eaf0d5f
+### 7조 미니프로젝트 대시보드:https://docs.google.com/spreadsheets/d/1TMpVo766xjbxrywPBZOxvpdPPqtIuxr1UEk4OoVd_NU/edit#gid=2058877873
